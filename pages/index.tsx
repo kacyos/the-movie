@@ -1,7 +1,12 @@
 import Head from "next/head";
 import { GetStaticProps } from "next";
 import api from "./api";
-import { Flex, Img, Stack } from "@chakra-ui/react";
+import { Box, Flex, IconButton, Img, Slide } from "@chakra-ui/react";
+import {
+  IoIosArrowDropleftCircle,
+  IoIosArrowDroprightCircle,
+} from "react-icons/io";
+import { useEffect, useRef } from "react";
 
 interface IMovie {
   adult: boolean;
@@ -28,6 +33,16 @@ interface IHomeProps {
 }
 
 export default function Home({ data }: IHomeProps) {
+  const carousel = useRef<HTMLDivElement>(null);
+
+  const scrollLeft = () => {
+    if (carousel.current) carousel.current.scrollLeft -= 1050;
+  };
+
+  const scrolRight = () => {
+    if (carousel.current) carousel.current.scrollLeft += 1050;
+  };
+
   return (
     <div>
       <Head>
@@ -36,17 +51,54 @@ export default function Home({ data }: IHomeProps) {
         <link rel="icon" href="/" />
       </Head>
       <main>
-        {data.results.map((movie) => (
-          <Flex>
-            <Stack>
+        <Flex>
+          <Flex
+            backgroundColor="#000000a5"
+            position="absolute"
+            justifyContent="center"
+            alignItems="center"
+            height="full"
+            opacity={0}
+            transition="ease-in .4s all"
+            _hover={{ opacity: "100" }}
+            onClick={scrollLeft}
+            cursor="pointer"
+          >
+            <IoIosArrowDropleftCircle color="pink" size={32} />
+          </Flex>
+          <Flex
+            ref={carousel}
+            height={250}
+            animation="scroll easy .5s all"
+            overflow="hidden"
+            scrollBehavior="smooth"
+          >
+            {data.results.map((movie) => (
               <Img
                 src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
                 alt={movie.title}
+                height="100%"
+                width="30%"
               />
-              <p> {movie.poster_path}</p>
-            </Stack>
+            ))}
           </Flex>
-        ))}
+
+          <Flex
+            backgroundColor="#000000a5"
+            position="absolute"
+            justifyContent="center"
+            alignItems="center"
+            height="full"
+            right="0"
+            opacity={0}
+            transition="ease-in .4s all"
+            _hover={{ opacity: "100" }}
+            onClick={scrolRight}
+            cursor="pointer"
+          >
+            <IoIosArrowDroprightCircle color="pink" size={32} />
+          </Flex>
+        </Flex>
       </main>
     </div>
   );
