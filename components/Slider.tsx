@@ -2,7 +2,6 @@ import {
   Slider as ChackaSlider,
   SliderTrack,
   SliderFilledTrack,
-  SliderThumb,
   Box,
 } from "@chakra-ui/react";
 
