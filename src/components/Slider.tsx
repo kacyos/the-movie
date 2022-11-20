@@ -1,5 +1,4 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-
 import { Navigation } from "swiper";
 // Import Swiper styles
 import "swiper/css";
@@ -44,7 +43,14 @@ const defineColorChart = (vote: number) => {
   return "green";
 };
 
+import { extendTheme } from "@chakra-ui/react";
+
+// 2. Update the breakpoints as key-value pairs
+
+// 3. Extend the theme
+
 export function SlideImage({ results }: IHomeProps) {
+  //const theme = extendTheme({ breakpoints });
   return (
     <Swiper
       modules={[Navigation]}
@@ -64,7 +70,7 @@ export function SlideImage({ results }: IHomeProps) {
           slidesPerView: 5,
         },
         1024: {
-          slidesPerView: 8,
+          slidesPerView: 9,
         },
       }}
     >
@@ -76,9 +82,7 @@ export function SlideImage({ results }: IHomeProps) {
               alt={movie.title}
               onClick={(e) => console.log(e)}
               pointerEvents="none"
-              height={["36", "48", "52"]}
-              width="full"
-              objectFit="cover"
+              objectFit="contain"
             />
           </Box>
 
@@ -108,19 +112,10 @@ export function SlideImage({ results }: IHomeProps) {
               gap={2}
               p={1}
             >
-              <Text
-                textAlign="center"
-                fontSize={16}
-                fontWeight="bold"
-                color="pink.500"
-              >
-                {movie.title}
-              </Text>
-
               <Text fontSize={14} color="gray.100" fontWeight="bold">
                 Avaliação
               </Text>
-              <Box h={20} w={20}>
+              <Box h={{ xs: "50%" }} w={{ xs: "50%" }}>
                 <CircularProgressbar
                   maxValue={10}
                   value={movie.vote_average}
